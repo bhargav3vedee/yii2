@@ -1,0 +1,11 @@
+* first of all add rules like this
+    ['mobile', 'validateMobile'],
+
+* and then make function of it
+ public function validateMobile($attribute, $parms)
+    {
+        if(strlen($this->mobile) != 10 || !ctype_digit($this->mobile))
+        {
+            $this->addError('mobile', 'Enter valid mobile no.');
+        }
+    }

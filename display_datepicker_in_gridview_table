@@ -1,0 +1,23 @@
+* for display datepicker in gridview table write this code to search index page in grid view
+	[
+             'attribute' => 'timestamp',
+             'filter' => \yii\jui\DatePicker::widget(
+                     [
+                         'model' => $searchModel,
+                         'attribute' => 'timestamp',
+                         'language' => 'en', 
+                         'clientOptions' => [
+                             'autoclose' => true,
+                             'dateFormat' => 'dd-MM-yyyy',
+                         ],
+                         
+                     ]),
+             'format' => 'date',
+         ],
+
+* and write this code search model
+
+	if(isset($this->timestamp) and $this->timestamp != '')
+        {
+            $query->andFilterWhere(['like', 'timestamp', date('Y-m-d', strtotime($this->timestamp))]);  
+        }

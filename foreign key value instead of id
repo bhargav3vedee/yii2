@@ -1,0 +1,57 @@
+﻿* for display foreign key value instead of id we should declare relations in model
+* there are many types of relations in yii2 database 
+
+* here is example of how to show "country_name" instead of "country_id"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* here, in “country” table “id” is primary key and in table “users” field “country_id” is foreign key.
+* now, in yii search table this shows us like this.
+
+* for this, we write below code to “index.php” of search in GridView::widget
+
+	[
+        'attribute' => 'country',
+        'format' => 'text',
+        'value' => function($model) 
+			{
+                   $country = Country::find()->asArray()->where(['id' =>$model->country])->all();
+                   return sizeof($country) ? $country[0]['country_name'] : '-';
+                  },                
+      ],  
+
+* By this we can get value of “country_name” in search table
+
+* Now, after all this still we can not search “country” by its name. So, for this
+
+* we should declare relation in “Users.php” Modal,
+
+public function relations()
+    {
+        return [
+            'country'=>[self::BELONGS_TO, 'country', 'id'],
+        ];
+    }
+
+* and “UsersSearch.php” write join syntax
+
+	$query->joinWith('country');
+
+and write one condition like this,
+
+	->andFilterWhere(['like', 'country.country_name', $this->country]);
+
+* by this we can also search country by name.

@@ -1,0 +1,47 @@
+for basic go to config/web.php in your project folder
+
+and uncomment "urlManager"
+
+write this : 
+
+'urlManager'=>[
+	'enablePrettyUrl' => true,
+	'showScriptName' => false,
+	'enableScriptParsing' => false,
+	'rules' => [],
+]
+
+without this you can access your webpage using this url : 
+
+yiibasic/web/index.php?r=site/index
+
+and after add above code you can access using this url: 
+
+yiibasic/web/index.php/site/index
+
+* now for remove web/index.php, you should make new ".htaccess" file in root of project
+ and write below code to it
+
+RewriteEngine on
+
+RewriteCond%{REQUEST_FILENAME}!-f
+RewriteCond%{REQUEST_FILENAME}!-d
+
+RewriteRule. index.php
+
+* and change index.php of root folder 
+
+from this : 
+
+require(__DIR__.'/../vendor/autoload.php');
+require(__DIR__.'/../vendor/yiisoft/yii2/Yii.php');
+$config = require(__DIR__.'/../config/web.php');
+
+to this : 
+
+require(__DIR__.'/vendor/autoload.php');
+require(__DIR__.'/vendor/yiisoft/yii2/Yii.php');
+$config = require(__DIR__.'/config/web.php');
+
+* now you can access webpage directly from "projectName/site/index"
+

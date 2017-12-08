@@ -1,0 +1,43 @@
+* for upload file by ajax use this link : 
+	http://demos.krajee.com/widget-details/fileinput
+
+* first of all you should install kartik-fileInput widget run this code in terminal
+	sudo composer require kartik-v/yii2-widget-fileinput "@dev"
+
+* include this widget
+	use \kartik\file\FileInput;
+
+* to apply this to any field, use it like this
+	<?php
+	  echo $form->field($model, 'foto')->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*', 'name'=>'img'],
+            'pluginOptions' => 
+                       [
+                        'showUpload' => true,
+                        'browseLabel'=> '',
+                        'removeLabel'=> '',
+                        'uploadUrl' => \yii\helpers\Url::toRoute(['site/uploaded']),
+                        'mainClass'  => 'input-group-lg',
+                        'multiple' => false,
+                       ]
+            ]);
+      ?>
+
+* and your ajax page will like this
+	public function actionUploaded()
+	    {
+		$ext = end(explode('.',$_FILES['img']['name']));
+		
+		$new = "uploads/bhargav.".$ext;
+		
+		if(move_uploaded_file($_FILES['img']['tmp_name'], $new))
+		{
+		    $output = array('uploaded'=>'ok');
+		}
+		else
+		{
+		    $output = array('error'=>'Error while uploaded file');
+		}
+		
+		echo json_encode($output);
+	    }

@@ -1,0 +1,10 @@
+* for user login first of all make mysql table that contains user name and password of user
+
+* then use this table's model to User.php model
+
+* for extra code refer to SVN/bhargavyii/models/User.php
+
+* for getting any information after login just write this code
+
+	echo Yii::$app->user->identity->username; // This will provide username
+	echo Yii::$app->user->identity; // This will provide user's object

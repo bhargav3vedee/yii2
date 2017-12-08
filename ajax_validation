@@ -1,0 +1,23 @@
+* for Ajax validation we should first add this to our view file's form tag
+
+<?php $form = ActiveForm::begin(['id' => 'registration-form', 'enableAjaxValidation' => true]); ?>  
+
+* and in controller define this action 
+
+	public function actionRegistration()
+	    {
+		$model = new Registration();
+		if (Yii::$app->request->isAjax) 
+		{
+		    $model->load($_POST);
+		    Yii::$app->response->format = Response::FORMAT_JSON;
+		    return ActiveForm::validate($model);
+		}  
+		else
+		{
+		    return $this->render('registration', ['model' => $model]);
+		}
+		
+	    }
+
+* and in modal as usual write rules

@@ -1,0 +1,7 @@
+* for use autocomplete on textbox, install jui for yii
+	
+	<?= $form->field($model, 'country')->widget(\yii\jui\AutoComplete::classname(), [
+                'clientOptions' => [
+                    'source' => ['USA', 'RUS'],
+                ],
+            ])  ?>

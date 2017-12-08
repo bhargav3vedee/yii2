@@ -1,0 +1,15 @@
+* install this 
+	sudo php composer.phar require kartik-v/yii2-widget-datepicker "@dev"
+
+* use this : use \kartik\date\DatePicker;
+	<?=
+		 $form->field($model, 'bdate')->widget(DatePicker::classname(), [
+		'type' => DatePicker::TYPE_COMPONENT_APPEND,
+		'options' => ['placeholder' => 'Select a state ...'],
+		'pluginOptions' => [
+		'format' => 'mm/dd/yyyy',
+		'multidate' => false,
+		'multidateSeparator' => ' ; ',
+		],
+	    ]);
+	    ?>

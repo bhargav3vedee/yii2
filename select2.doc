@@ -1,0 +1,22 @@
+* install composer
+* install datepicker
+	composer require 2amigos/yii2-date-picker-widget:~1.0
+
+* include select2
+	use kartik\select2\Select2;
+
+	code : 
+		<?php
+                    
+                        $data = array(1=>"guj",2=>"maha");
+                    
+                    ?>
+                
+                    <?= $form->field($model, 'subject')->widget(Select2::classname(), [
+                            'data' => $data,
+                            'options' => ['placeholder' => 'Select a state ...'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                    ?>        

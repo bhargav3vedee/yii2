@@ -1,0 +1,4 @@
+step -1 : composer.phar require kartik-v/yii2-widget-activeform "@dev"
+step -2 : http://demos.krajee.com/widget-details/active-field
+
+

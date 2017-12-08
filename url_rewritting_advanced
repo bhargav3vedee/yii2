@@ -1,0 +1,91 @@
+
+
+By Default YII Advanced url structures for frontend and backend are:
+
+yii/frontend/web/index.php?r=controller/action
+yii/backend/web/index.php?r=controller/action
+To make url user and SEO friendly we would like to change frontend url to:
+yii/controller/action
+And backend url to:
+Yii/admin/controller/action
+For this we need to make following changes:
+A. Add this in frontend/config/main.php and backend/config/main.php in components array:
+
+'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'rules' => [
+                // ...
+            ],
+        ],
+
+B. Copy all data from frontend/web folder to application root folder(yii) and from backend/web folder to yii/admin folder.
+
+So folder structure will be like this:
+
+- yii/
+    - frontend/
+    - backend/
+    - common/
+    - .. other folders..
+    - admin/
+        - assets/
+        - css/
+        - index.php
+    - assets/
+    - css/
+    - index.php
+
+C. Create file .htaccess on yii and yii/admin folders and write below code in both:
+RewriteEngine on
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# otherwise forward it to index.php
+RewriteRule . index.php
+
+D. Replace Yii/index.php code with following:
+
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'dev');
+
+require(__DIR__ . '/vendor/autoload.php');
+require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');
+require(__DIR__ . '/common/config/bootstrap.php');
+require(__DIR__ . '/frontend/config/bootstrap.php');
+
+$config = yii\helpers\ArrayHelper::merge(
+    require(__DIR__ . '/common/config/main.php'),
+    require(__DIR__ . '/common/config/main-local.php'),
+    require(__DIR__ . '/frontend/config/main.php'),
+    require(__DIR__ . '/frontend/config/main-local.php')
+);
+
+$application = new yii\web\Application($config);
+$application->run();
+
+E. Replace Yii/admin/index.php code with following:
+
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'dev');
+
+require(__DIR__ . '/../vendor/autoload.php');
+require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+require(__DIR__ . '/../common/config/bootstrap.php');
+require(__DIR__ . '/../frontend/config/bootstrap.php');
+
+$config = yii\helpers\ArrayHelper::merge(
+    require(__DIR__ . '/../common/config/main.php'),
+    require(__DIR__ . '/../common/config/main-local.php'),
+    require(__DIR__ . '/../frontend/config/main.php'),
+    require(__DIR__ . '/../frontend/config/main-local.php')
+);
+
+$application = new yii\web\Application($config);
+$application->run();
+
+Now you can access frontend by url: yii/controller/action
+And backend by url: yii/admin/controller/action
+

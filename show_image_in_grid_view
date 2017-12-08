@@ -1,0 +1,12 @@
+* for view image in gridview write code in GridView widget in index.php of search like this,
+
+	    [
+                'attribute' => 'profile_picture',
+                'format' => 'html',
+                'value' =>  function($model)
+                        {
+                            $url = Yii::$app->urlManager->getBaseUrl(); 
+                            return Html::img($url."/".$model->profile_picture, ['width'=>'100']);
+                           // return $url."/".$model->profile_picture;
+                        },        
+            ],
