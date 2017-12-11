@@ -1,0 +1,35 @@
+For Pagination include class : yii\data\Pagination
+
+Write This to controller : 
+
+	$model = new City();
+
+        $query = $model->find()->asArray()->where('1');
+        $count = $query->count();
+        $page = 1;
+        $perpage = 1;
+
+        if(isset($_REQUEST['page']) && isset($_REQUEST['per-page']))
+        {
+            $page = $_REQUEST['page'];
+            $perpage = $_REQUEST['per-page'];
+        }
+
+        $from = (($page-1)*$perpage);
+        $to = $page*$perpage;
+
+        $City = $query->
+                offset($from)->
+                limit($perpage)->
+                all();
+
+        return $this->render('viewall', ['city'=>$City, 'perpage'=>$perpage, 'count'=>$count]);
+
+In view File include this class : use yii\data\Pagination;
+
+and write this : 
+
+	$pagination = new Pagination(['totalCount' => $count, 'pageSize'=>$perpage]);
+	echo \yii\widgets\LinkPager::widget([
+	    'pagination' => $pagination,
+	]);
