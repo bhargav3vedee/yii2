@@ -1,0 +1,7 @@
+if i have one user class and it has three fields id, first_name, last_name.
+
+and this id is used in other table but i want to filter by either first_name or last_name.
+
+then, use this.
+
+$query->andFilterWhere(['or', ['like', user.first_name, $this->name], ['like', user.last_name, $this->name]]);

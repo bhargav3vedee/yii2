@@ -1,0 +1,20 @@
+* if you want to redirect user with one parameter from one controller to another,
+
+	Yii::$app->urlManager->createUrl(['\demo\actionName', ['parameter'=>'value_of_parameter']])
+		$this->redirect(['demo/action', ['parameter'=>'parameter_value']])
+
+* without parameter
+
+	Yii::$app->urlManager->createUrl(['\demo\actionName'])
+	$this->redirect(['demo/action'])
+
+* more than one parameter
+
+	1) 
+		$parameter = ['first'=>'first', 'second'=>'second'];
+		$url = ['controller/action']
+		$urL = array_merge($url, $parameter);
+		$Url = Yii::$app->urlManager->createUrl($urL)
+
+	2)
+			$this->redirect(['demo/action', ['first'=>'first', 'second'=>'second']])

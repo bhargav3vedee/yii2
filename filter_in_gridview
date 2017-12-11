@@ -1,0 +1,18 @@
+* if you want to filter of dropdown instead of textbox in grid view, then write this in gridColumn
+
+[
+	'attribute' => 'status',
+	'filter' => ['on' => 'On', 'off' => 'Off'],
+	'filterInputOptions' => [
+					'prompt' => 'status',		
+				],
+]
+
+* if you want to set placeholder in textfield of gridview then,
+
+[
+	'attribute' => 'status',
+	'filterInputOptions' => [
+					'placeholder' => 'status',
+				],
+]

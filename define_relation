@@ -1,0 +1,26 @@
+You can Define relation in either base Model or in model.
+
+Define relation in function relationNames()
+
+public function relationNames()
+{
+	return ['demo'];
+}
+
+then, make function of defined relation's. Remember function name of relation must contain "get" keyword.
+
+public function getDemo()
+{
+	return $this->hasMany(Demo::className(), ['field of Demo which contains id of this table', 'field of this table'];
+}
+
+Here, first argument should be field name of parent class whose "id" used by this table.
+and second argument should be "field name of this table".
+
+then, in search class model join this relation name with query.
+
+$query->joinWith('demo');
+
+and use query for filter.
+
+andFilterWhere('like', demo.name, $this->demoid);
