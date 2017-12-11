@@ -1,0 +1,23 @@
+* for use select2 you should run this code to terminal
+	sudo php composer.phar require kartik-v/yii2-widget-select2 "@dev"
+
+* then include 
+	use kartik\select2\Select2;
+
+* for single option select
+	echo $form->field($model, 'state_1')->widget(Select2::classname(), [
+		    'data' => $data,
+		    'language' => 'de',
+		    'options' => ['placeholder' => 'Select a state ...'],
+		    'pluginOptions' => [
+			'allowClear' => true
+		    ],
+		]);
+
+* for multiple option select
+	echo Select2::widget([
+		    'name' => 'state_2',
+		    'value' => '',
+		    'data' => $data,
+		    'options' => ['multiple' => true, 'placeholder' => 'Select states ...']
+		]);

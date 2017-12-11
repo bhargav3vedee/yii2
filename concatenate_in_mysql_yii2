@@ -1,0 +1,1 @@
+* $tranporter = ArrayHelper::map(backend\models\User::find()->select(['concat(first_name," ",last_name) as value', 'id as id'])->asArray()->where(['user_role_id'=>'4', 'status'=>'Y'])->all(), 'id', 'value');

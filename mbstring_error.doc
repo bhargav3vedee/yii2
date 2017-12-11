@@ -1,0 +1,2 @@
+* for remove mbstring error
+	sudo apt-get install php-mbstring php7.1-mbstring php-gettext libapache2-mod-php7.1

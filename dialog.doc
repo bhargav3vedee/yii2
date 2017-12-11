@@ -1,0 +1,41 @@
+* for use dialog you should install yii-jui first
+
+* then include this,
+	* use yii\jui\Dialog;
+
+* then make one button for on which you want make event 	
+	* <?=  Html::Button('click',['class'=>'btn btn-primary','onclick'=>'hello()'])   ?>
+
+* then write code to make dialog
+	* <?php
+	    Dialog::begin([
+		'id'=>'dialog',
+	    'clientOptions' => [
+		'title'=>'dialog',
+		'modal' => true,
+		'autoOpen'=>false,
+	    ],
+	    ]);
+
+	    echo 'Dialog contents here...<br>';
+	    echo "<div style='float:right;'><button class='btn btn-info' onclick='clse()'>Ok</button>&nbsp;&nbsp;&nbsp;<button class='btn btn-danger' onclick='clse()'>Close</button></div>";
+
+	    Dialog::end();
+	  ?>
+
+* then write jquery code for dialog
+	* <script>
+
+		function hello()
+		{
+		    $('.ui-dialog-titlebar-close').html('X');
+
+		    $('#dialog').dialog('open');
+		}
+
+		function clse()
+		{
+		    $('#dialog').dialog('close');
+		}
+
+	   </script>

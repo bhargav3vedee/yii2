@@ -1,0 +1,82 @@
+install ' php composer.phar require kartik-v/yii2-grid "@dev" ' from terminal
+
+then in index file add this in gridColumn after SerailColumn
+
+[
+    'class' => 'kartik\grid\ExpandRowColumn',
+    'width' => '50px',
+    'value' => function ($model, $key, $index, $column) {
+        return GridView::ROW_COLLAPSED;
+    },
+    'detail' => function ($model, $key, $index, $column) {
+        return Yii::$app->controller->renderPartial('_expand', ['model' => $model]);
+    },
+    'headerOptions' => ['class' => 'kartik-sheet-style'],
+    'expandOneOnly' => true
+],
+
+and create one file _detail.php and write gridColumn's content into it. Like this
+
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+use kartik\grid\GridView;
+
+?>
+<div class="user-view">
+
+    <div class="row">
+        <div class="col-sm-9">
+            <h2><?= Html::encode($model->first_name ." ". $model->last_name) ?></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <?php
+
+        $gridColumn = [
+            ['attribute' => 'id', 'visible' => false],
+            [
+                'attribute' => 'company_name',
+                'value' => function($model)
+                {
+                    $comp = frontend\models\CompanyDetail::find()->where(['userid'=>$model->id])->one();
+                    return $comp? $comp->company_name : "-";
+                }
+            ],
+            'first_name',
+            'last_name',
+
+            [
+                'attribute'=>'address_1',
+                'value' => function($model)
+                {
+                    $Address1 = frontend\models\CompanyDetail::find()->select('address_1')->where(['userid'=> $model->id])->one();
+                    return (!empty($Address1))? $Address1->address_1: "";
+                }
+            ],
+            [
+                'attribute'=>'address_2',
+                'value' => function($model)
+                {
+                    $Address2 = frontend\models\CompanyDetail::find()->select('address_2')->where(['userid'=> $model->id])->one();
+                    return (!empty($Address2))? $Address2->address_2: "";
+                }
+            ],
+            [
+                'attribute'=>'area',
+                'value' => function($model)
+                {
+                    $Area = frontend\models\CompanyDetail::find()->select('area')->where(['userid'=> $model->id])->one();
+                    return (!empty($Area))? $Area->area: "";
+                }
+            ],
+        ];
+        echo DetailView::widget([
+            'model' => $model,
+            'attributes' => $gridColumn
+        ]);
+        ?>
+    </div>
+</div>

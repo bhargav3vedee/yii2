@@ -1,0 +1,5 @@
+* for use icon first install kartik icon using this command
+	php composer.phar require kartik-v/yii2-icons "@dev"
+
+* then use it like this
+	echo '<i class="glyphicon glyphicon-thumbs-up"></i>';

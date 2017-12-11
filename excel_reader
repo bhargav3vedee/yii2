@@ -1,0 +1,56 @@
+* write this line to composer.json file in require session
+
+    "phpoffice/phpexcel": "dev-develop"
+
+* then update composer from kernel : composer update
+
+* and write this code 
+
+public function actionImport()
+    {
+        $inputFile = "sample.xlsx";
+        
+        try{
+            $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
+            $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFile);
+        } catch (Exception $ex) {
+            die($ex);
+        }
+        
+        $sheet = $objPHPExcel->getSheet(0);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        
+        for($row=1; $row <= $highestRow; $row++)
+        {
+            $rowData = $sheet->rangeToArray('A'.$row.':'.$highestColumn.$row,NULL, true, false);
+            echo "<pre>";print_r($rowData);echo "</pre>";
+        }
+        
+    }
+
+
+//////////////////////////////////////////////////////////
+//////////// Another Method For Excel Reader /////////////
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+$file = UploadedFile::getInstance($model, 'excel_sheet_name');
+            //#p($file);
+
+            if (isset($_FILES['formname']['name']['excel_sheet_name']) && !empty($_FILES['Carrierfrieghtmaster']['name']['excel_sheet_name'])) {
+                $extension = end((explode(".", $file->name)));
+                $new_file_name = Yii::$app->security->generateRandomString() . ".{$extension}";
+                $original_path = UPLOAD_DIR_PATH . 'upload_sheets/' . $new_file_name;
+                $upload_file = $file->saveAs($original_path);
+            }
+
+            $data = \moonland\phpexcel\Excel::import($original_path, ['getOnlySheet' => 'Sheet1',]);
+            //p($data);
+            if (!empty($data)) {
+                foreach ($data as $key_d => $val_d) {
+                    $model->price_22GP = $val_d['22GP'];
+                    $model->price_40GP = $val_d['40GP'];
+                    $model->price_40HC = $val_d['40HC'];
+                }
+            }

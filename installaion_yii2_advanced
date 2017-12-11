@@ -1,0 +1,22 @@
+* Download zip file of yii2 from official website
+* Extract it in folder
+* Install composer by run code 
+	curl -sS https://getcomposer.org/installer | php
+
+* then run "php init" code
+* create "assets" folder and give it permission
+* Move frontend folder's "web" folder's content to "Root" folder 
+	note : dont move assets folder from frontend
+* Change index.php file's content to remove error 
+* Enable urlmanager and pretty url from "frontend/config/main.php"
+* write ".htaccess" file in root folder
+
+	RewriteEngine on
+
+	# if a directory or a file exists, use it directly
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	# otherwise forward it to index.php
+	RewriteRule . index.php
+
+

@@ -1,0 +1,22 @@
+<?php $url = Yii::$app->request->baseUrl; ?>
+
+<?php
+
+$this->registerJS('$("document").ready(function(){'
+        . '$("#foto").on("change",function(){
+            
+            var foto = $("#foto").val();
+
+            $.ajax({
+                    method : "post",
+                    url : "'.$url.'/site/foto",
+                    data : { foto : foto },
+                    success : function(data)
+                        {  
+                            $("#response_division").html(data);
+                        }
+                    });
+                                        });'
+                            . '});');  
+
+?>

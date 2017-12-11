@@ -1,0 +1,18 @@
+* First install composer
+* then install datepicker
+	composer require --prefer-dist yiisoft/yii2-jui
+
+* use datepicker
+	use dosamigos\datepicker\DatePicker;
+
+	code : 
+		<?= $form->field($model, 'name')->widget(DatePicker::className(), 
+                            [
+                            // inline too, not bad
+                             'inline' => false, 
+                             // modify template for custom rendering
+                            
+                            'clientOptions' => [
+                                'autoclose' => true,
+                                'format' => 'dd-mm-yyyy'
+                ]]);?> 
