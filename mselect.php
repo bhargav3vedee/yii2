@@ -46,6 +46,7 @@ var vale = [];
 var res = "";
 var selVal = "";
 var selTxt = "";
+var max = 0;
 
 $(document).ready(function(){
 
@@ -67,33 +68,38 @@ $(document).ready(function(){
 
 	$('#resList').append(frmGrp);
 	
-	$('#search').on('change, keyup', function(){
+	$('#search').on('keyup', function(e){
+            
 		var searched = $(this).val().toLowerCase();
 		res = "";
 		for(var i=0; i<opton.length; i++)
 		{
-			var optonTxt = opton[i].toLowerCase();
-			if(optonTxt.indexOf(searched) >= 0)
-			{
-				var a = "aclick('"+vale[i]+"','"+opton[i]+"')";
-				var clas = "";
-				if(i == 0)	{	clas = "selected";	}
-				res += '<a class="resa" onclick='+a+' value="'+vale[i]+'"><li class="'+clas+'">'+opton[i]+'</li></a>';
-			}
+                    var optonTxt = opton[i].toLowerCase();
+                    if(optonTxt.indexOf(searched) >= 0)
+                    {
+                            var a = "aclick('"+vale[i]+"','"+opton[i]+"')";
+                            var clas = "";
+                            if(i == 0)	{	clas = "selected";	}
+                            res += '<li class="'+clas+'"><a class="resa" onclick='+a+' value="'+vale[i]+'">'+opton[i]+'</a></li>';
+                    }
 		}
+                max = i;
 
 		if(res != "")
 		{
-			res = '<ul id="res_option">'+res+'</ul>';
-			$('#res_list').show();
-			$('#res_list').html(res);
+                    res = '<ul id="res_option">'+res+'</ul>';
+                    $('#res_list').show();
+                    $('#res_list').html(res);
 		}
 		else
 		{
-			res = '<ul id="res_option">No Results Found</ul>';
-			$('#res_list').show();
-			$('#res_list').html(res);
+                    res = '<ul id="res_option">No Results Found</ul>';
+                    $('#res_list').show();
+                    $('#res_list').html(res);
 		}
+                
+                traverse(e.keyCode);
+                
 	});
 
 	$('#show_all').on('click', function(){
@@ -143,81 +149,33 @@ function aclick(val, txt)
 	$('#res_list').hide();
 }
 
-</script>
+var child = 0;
 
-</html>
-
-<style>
-
-.services {
-    display:none;   
-}
-
-.services li {
-    width: 150px;   
-}
-
-.services li.selected {
-    background-color: grey;   
-}
-
-</style>
-
-<input type="text" id="autofill"/> Press enter to view items
-<div class="services">
-    <div class="items">
-        <ul>                           
-            <li class="mail-icon selected"><a href="#" id="mail">mail</a></li>
-            <li class="forum-icon"><a href="#" id="forum">lang</a></li>
-            <li class="chat-icon"><a href="#" id="chat">chat</a></li>
-        </ul>
-    </div>
-</div>
-
-<script>
-
-$("#search").keydown(function(e) {
-    if (e.keyCode == 13) { // enter
-        if ($(".services").is(":visible")) {
-            selectOption();
-        } else {
-            $(".services").show();
+function traverse(kCode)
+{    
+    if(kCode == 40 || kCode == 38)
+    {
+        if(kCode == 40)
+        {
+            if(child <= max)    { child++;  }
+            else { child = 1; }
+            $("#res_option li:nth-child("+child+")").css("background-color", "white");
+            var p = child -1;
+            $("#res_option li:nth-child("+p+")").removeClass('selected');
+            $("#res_option li:nth-child("+child+")").addClass('selected');
         }
-        menuOpen = !menuOpen;
-    }
-alert(e.keyCode);
-    if (e.keyCode == 38) { // up
-        var selected = $(".selected");
-        $(".services li").removeClass("selected");
-        if (selected.prev().length == 0) {
-            selected.siblings().last().addClass("selected");
-        } else {
-            selected.prev().addClass("selected");
+        else if(kCode == 38)
+        {
+            if(child == 0)  { child = max;}
+            else {  child--;    }
+            $("#res_option li:nth-child("+child+")").css("background-color", "white");
+            var p = child+1;
+            $("#res_option li:nth-child("+p+")").removeClass('selected');
+            $("#res_option li:nth-child("+child+")").addClass('selected');
         }
     }
-    if (e.keyCode == 40) { // down
-alert('down');
-        var selected = $(".selected");
-        $(".services li").removeClass("selected");
-        if (selected.next().length == 0) {
-            selected.siblings().first().addClass("selected");
-        } else {
-            selected.next().addClass("selected");
-        }
-    }
-});
-
-$(".services li").mouseover(function() {
-    $(".services li").removeClass("selected");
-    $(this).addClass("selected");
-}).click(function() {
-    selectOption();
-});
-
-function selectOption() {
-    $("#autofill").val($(".selected a").text());
-    $(".services").hide();
 }
 
 </script>
 
+</html>
