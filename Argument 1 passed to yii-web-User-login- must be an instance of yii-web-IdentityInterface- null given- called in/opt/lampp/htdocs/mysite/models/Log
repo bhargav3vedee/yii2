@@ -1,0 +1,1 @@
+Argument 1 passed to yii\web\User::login() must be an instance of yii\web\IdentityInterface, null given, called in /opt/lampp/htdocs/mysite/models/Log
