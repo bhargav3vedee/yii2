@@ -1,0 +1,15 @@
+$query->andFilterWhere(
+                                [
+                                    'and', 
+                                    [
+                                        'or',
+                                        ['like', 'A.first_name', $this->rating_user_id], 
+                                        ['like', 'A.last_name', $this->rating_user_id]
+                                    ],
+                                    [
+                                        'or',
+                                        ['like', 'B.first_name', $this->rated_user_id], 
+                                        ['like', 'B.last_name', $this->rated_user_id]
+                                    ]
+                                ]
+                            );

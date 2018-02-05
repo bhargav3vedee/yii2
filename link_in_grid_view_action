@@ -1,0 +1,11 @@
+[
+            'header' =>'View More',
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{view}',
+            'buttons' => [
+                'view' => function ($url, $model) {
+                    $url = Yii::$app->urlManager->createUrl('eliteservice/view')."/".$model->id;
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title' => 'View More']);
+                },
+            ],
+        ],

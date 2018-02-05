@@ -33,6 +33,11 @@ li {
 			<option value="one">One</option>
 			<option value="two">Two</option>
 			<option value="three">Three</option>
+                        <option value="four">Four</option>
+                        <option value="five">Five</option>
+                        <option value="six">Six</option>
+                        <option value="seven">Seven</option>
+                        <option value="eight">Eight</option>
 		</select>
 	</div>
 </div>
@@ -47,6 +52,7 @@ var res = "";
 var selVal = "";
 var selTxt = "";
 var max = 0;
+var child = 0;
 
 $(document).ready(function(){
 
@@ -59,10 +65,10 @@ $(document).ready(function(){
 	});
 
 	var frmGrp = '<div class="input-group">'+
-		      		'<input type="text" class="mselect form-control" placeholder="Search for..." id="search">'+
-				      '<span class="input-group-btn">'+
-					        '<button class="mselect btn btn-secondary" id="show_all" type="button">Go!</button>'+
-				      '</span>'+
+                        '<input type="text" class="mselect form-control" placeholder="Search for..." id="search">'+
+                        '<span class="input-group-btn">'+
+                            '<button class="mselect btn btn-secondary" id="show_all" type="button">Go!</button>'+
+                        '</span>'+
 	    	     '</div>'+
 		     '<div id="res_list" style="position : absolute; width:95%; z-index: 9999;background-color:red; display:none; max-height: 100px; overflow-y: scroll;"></div>';
 
@@ -72,6 +78,7 @@ $(document).ready(function(){
             
 		var searched = $(this).val().toLowerCase();
 		res = "";
+                var locali = 0; max = 0;
 		for(var i=0; i<opton.length; i++)
 		{
                     var optonTxt = opton[i].toLowerCase();
@@ -79,11 +86,12 @@ $(document).ready(function(){
                     {
                             var a = "aclick('"+vale[i]+"','"+opton[i]+"')";
                             var clas = "";
-                            if(i == 0)	{	clas = "selected";	}
-                            res += '<li class="'+clas+'"><a class="resa" onclick='+a+' value="'+vale[i]+'">'+opton[i]+'</a></li>';
+                            if(locali == 0)	{	clas = "selected";  locali++;	}
+                            res += '<li onclick='+a+' style="cursor: pointer;" class="'+clas+'"><a class="resa" onclick='+a+' data-value="'+vale[i]+'">'+opton[i]+'</a></li>';
+                            max++;
                     }
 		}
-                max = i;
+                
 
 		if(res != "")
 		{
@@ -103,22 +111,29 @@ $(document).ready(function(){
 	});
 
 	$('#show_all').on('click', function(){
-		res = "";
-		for(var i=0; i<opton.length; i++)
-		{
-			var a = "aclick('"+vale[i]+"','"+opton[i]+"')";
-			var clas = "";
-			if(i == 0)	{	clas = "selected";	}
+            res = "";
+            var localp = 0;
+            for(var i=0; i<opton.length; i++)
+            {
+                    var a = "aclick('"+vale[i]+"','"+opton[i]+"')";
+                    var clas = "";
+                    if(localp == 0)	{	clas = "selected";  localp++;	}
 
-			res += '<a class="resa" onclick='+a+' value="'+vale[i]+'"><li class="'+clas+'">'+opton[i]+'</li></a>';
-		}
+                    res += '<li style="cursor: pointer;" onclick='+a+' class="'+clas+'"><a class="resa" onclick='+a+' data-value="'+vale[i]+'">'+opton[i]+'</a></li>';
+            }
 
-		if(res != "")
-		{
-			res = '<div class="services"><ul>'+res+'</ul></div>';
-			$('#res_list').show();
-			$('#res_list').html(res);
-		}
+            if(res != "")
+            {
+                res = '<ul id="res_option">'+res+'</ul>';
+                $('#res_list').show();
+                $('#res_list').html(res);
+            }
+            else
+            {
+                res = '<ul id="res_option">No Results Found</ul>';
+                $('#res_list').show();
+                $('#res_list').html(res);
+            }
 	});
 
 	$(document).click(function(event) {
@@ -128,13 +143,13 @@ $(document).ready(function(){
 		}
 		else
 		{
-			$('#res_list').hide();
-			var selected = $('#search').val();
+                    $('#res_list').hide();
+                    var selected = $('#search').val();
 
-			if(opton.indexOf(selected) == -1 )
-			{
-				$('#search').val('');
-			}
+                    if(opton.indexOf(selected) == -1 )
+                    {
+                            $('#search').val('');
+                    }
 		}
     	});
 
@@ -149,10 +164,19 @@ function aclick(val, txt)
 	$('#res_list').hide();
 }
 
-var child = 0;
-
 function traverse(kCode)
-{    
+{   
+    if(kCode == 13)
+    {
+        var atxt = document.querySelector('#res_option li:nth-child('+child+')').innerText;
+        var atag = document.querySelector('#res_option li:nth-child('+child+')').innerHTML;
+        var va = atag.split('value="');
+        var vs = va[1].split('">');
+        $('#mselect1').val(vs[0]);
+        $('#search').val(atxt);
+        $('#res_list').hide();
+    }
+    
     if(kCode == 40 || kCode == 38)
     {
         if(kCode == 40)
@@ -163,6 +187,8 @@ function traverse(kCode)
             var p = child -1;
             $("#res_option li:nth-child("+p+")").removeClass('selected');
             $("#res_option li:nth-child("+child+")").addClass('selected');
+            var offset = $('#res_option ul li').first().position().top;
+            alret(offset);
         }
         else if(kCode == 38)
         {

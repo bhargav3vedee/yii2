@@ -1,0 +1,38 @@
+Guzzle for HTTP requests => https://github.com/guzzle/guzzle
+Symfony2 EventDispatcher for events => http://symfony.com/doc/master/components/event_dispatcher.html
+Monolog and Psr\Log for logging => https://github.com/seldaek/monolog
+Doctrine for caching
+
+https://docs.aws.amazon.com/aws-sdk-php/v2/guide/installation.html
+
+Download zip file : https://docs.aws.amazon.com/aws-sdk-php/v3/guide/getting-started/installation.html
+
+use Aws\S3\S3Client;
+//===== Amazon Bucket
+          
+$tempName = $img_uploads->tempName;
+                    $content = file_get_contents($tempName);
+          
+    $bucket = "manasbeta";
+    $key = 'AKIAJT6HYUFIXQY7ST6Q';
+    $secret_key = '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';
+    
+    $s3 = S3Client::factory([
+            'credentials' => 
+            [
+                'key'    => $key,
+                'secret' => $secret_key
+            ],
+            'region' => 'ap-south-1',
+            'version'     => 'latest',
+            'scheme'  => 'http',
+            'signature' => 'v4'
+            ]);
+    
+    $result = $s3->putObject(array(
+                    'Bucket'       => $bucket,
+                    'Key'          => 'transporter/'.$file_nm,
+                    'ContentType'  => 'image/jpeg',
+                    'StorageClass' => 'STANDARD',
+                    'Body'   => $content
+                ));

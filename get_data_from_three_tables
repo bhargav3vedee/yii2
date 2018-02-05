@@ -1,0 +1,2 @@
+$query->join('LEFT JOIN', 'transporter_schedule_master',
+            'transporter_schedule_master.id =order_master.tran_schedule_id');

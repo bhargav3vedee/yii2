@@ -1,0 +1,4 @@
+* put this in gridcolumn
+
+'encodeLabel' => false,
+'label' => 'Order No.<i class="fa fa-sort" aria-hidden="true" style="float:right;"></i>',
